@@ -25,20 +25,56 @@ class PokemonDetailVC: UIViewController {
     @IBOutlet weak var nextEvoImg: UIImageView!
     @IBOutlet weak var evoLbl: UILabel!
     
-    @IBAction func backBtnPressed(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)        //Geri dönmek için bu fonksiyon
-        
-        
-    }
-    
-    
-    
-    
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        nameLbl.text = pokemon.name.capitalized
+        let img = UIImage(named: "\(pokemon.pokedexId)")
+        mainImg.image = img
+        currentEvoImg.image = img
+        pokedexLbl.text = "\(pokemon.pokedexId)"
+        
+        
+        
+        
+        pokemon.downloadPokemonDetail {
+           //Whatever we write will only be called after the network call is complete
+            
+            print("Did you arrive here?")       //Mesela bunu deneme için yazdık json datasını çektikten sonra bu bize ulaşıyor
+            
+            
+            self.updateUI()
+            
+        }
+      
     }
-
+    
+    func updateUI() {
+        
+        attackLbl.text = pokemon.attack
+        defenseLbl.text = pokemon.defense
+        heightLbl.text = pokemon.height
+        weightLbl.text = pokemon.weight
+        typeLbl.text = pokemon.type
+        descriptionLbl.text = pokemon.description
+        
+        if pokemon.nextEvolutionId == "" {
+            evoLbl.text = "No Evolutions"
+            nextEvoImg.isHidden = true
+        } else {
+            nextEvoImg.isHidden = false
+            nextEvoImg.image = UIImage(named: pokemon.nextEvolutionId)
+            let str = "Next Evolution: \(pokemon.nextEvolutionName) - LVL \(pokemon.nextEvolutionLevel)"
+            evoLbl.text = str
+        }
+        
+    }
+    
+    
+    @IBAction func backBtnPressed(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)        //Geri dönmek için bu fonksiyon
+    }
     
 
    

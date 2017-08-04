@@ -76,7 +76,7 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
             
             let csv = try CSV(contentsOfURL: path)  //Parse ediyoruz burada
             let rows = csv.rows
-            print(rows)
+            
             
             for row in rows {       //CSV dosyasındaki tüm satırlardaki id ve identifierları çekiyoruz
                 let pokeId = Int(row["id"]!)!
